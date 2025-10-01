@@ -11,5 +11,5 @@ CREATE TABLE Pilot (
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE Pilot
+DROP TABLE Pilot;
 -- +goose StatementEnd
