@@ -1,0 +1,58 @@
+version: '3'
+
+vars:
+    TOOL: goose
+    
+    MIGRATIONS_DIR: ./ci/migrations
+    MIGRATIONS_FLAGS: -dir "{{ .MIGRATIONS_DIR }}"
+    
+    SEED_DIR: ./ci/seed
+    SEED_FLAGS: -dir "{{ .SEED_DIR }}"
+
+
+dotenv:
+    - './environment/.goose.env'
+
+
+tasks:
+    migrate:up:
+        vars:
+            FLAGS: "{{ .MIGRATIONS_FLAGS }} up"
+        cmds:
+            - "{{ .TOOL }} {{ .FLAGS }}"
+    
+    migrate:down:
+        vars:
+            FLAGS: "{{ .MIGRATIONS_FLAGS }} down"
+        cmds:
+            - "{{ .TOOL }} {{ .FLAGS }}"
+
+    migrate:down-to-0:
+        vars:
+            FLAGS: "{{ .MIGRATIONS_FLAGS }} down-to 0"
+        cmds:
+            - "{{ .TOOL }} {{ .FLAGS }}"
+
+    seed:up:
+        vars:
+            FLAGS: "{{ .SEED_FLAGS }} -no-versioning up"
+        cmds:
+            - "{{ .TOOL }} {{ .FLAGS }}"
+    
+    seed:down:
+        vars:
+            FLAGS: "{{ .SEED_FLAGS }} -no-versioning down"
+        cmds:
+            - "{{ .TOOL }} {{ .FLAGS }}"
+
+    migrations:reset:
+        vars:
+            FLAGS: "{{ .MIGRATIONS_FLAGS }} -no-versioning reset"
+        cmds:
+            - "{{ .TOOL }} {{ .FLAGS }}"
+    
+    database:reset:
+        cmds:
+            - task: migrate:down-to-0
+            - task: migrate:up
+            - task: seed:up
