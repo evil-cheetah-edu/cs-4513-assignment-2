@@ -5,8 +5,10 @@ CREATE TABLE Booking (
     fnum VARCHAR(255) NOT NULL,
 
     PRIMARY KEY (pid, fnum),
-    FOREIGN KEY (pid)  REFERENCES Passenger,
+    FOREIGN KEY (pid)  REFERENCES Passenger
+        ON DELETE CASCADE,
     FOREIGN KEY (fnum) REFERENCES Flight
+        ON DELETE CASCADE
 );
 -- +goose StatementEnd
 

@@ -10,6 +10,7 @@ CREATE TABLE Flight (
     
     PRIMARY KEY (fnum),
     FOREIGN KEY (plid) REFERENCES Pilot
+        ON DELETE CASCADE
 );
 -- +goose StatementEnd
 
